@@ -1,0 +1,5 @@
+#surefire
+#Fri Nov 15 19:24:39 MSK 2013
+user.dir=D\:\\Projects\\jasper-maven-plugin
+localRepository=D\:\\MavenLocalRepository
+basedir=D\:\\Projects\\jasper-maven-plugin
