@@ -16,23 +16,24 @@ import java.io.File;
 @Mojo(name = "compile", defaultPhase = LifecyclePhase.PACKAGE)
 public class CompileMojo extends AbstractMojo {
 
-    @Parameter(alias = "directory", required = true)
-    protected String directory;
+  @Parameter(alias = "directory", required = true)
+  protected String directory;
 
-    public void execute() throws MojoExecutionException, MojoFailureException {
-        for (File jrxml : FileUtils.listFiles(new File(directory), new String[]{"jrxml"}, true)) {
-            try {
-                compile(jrxml);
-            } catch (JRException e) {
-                throw new MojoFailureException(String.format("Failed to compile %s", jrxml.getAbsoluteFile()));
-            }
-        }
+  public void execute() throws MojoExecutionException, MojoFailureException {
+    for (File jrxml : FileUtils.listFiles(new File(directory), new String[]{"jrxml"}, true)) {
+      try {
+        compile(jrxml);
+      } catch (JRException e) {
+        getLog().error(String.format("Failed to compile %s", jrxml.getAbsoluteFile()), e);
+        throw new MojoFailureException(String.format("Failed to compile %s", jrxml.getAbsoluteFile()));
+      }
     }
+  }
 
-    public void compile(File jrxml) throws JRException {
-        String source = jrxml.getAbsolutePath();
-        String dest = source.replace(".jrxml", ".jasper");
-        getLog().info(String.format("Compiling report %s", source));
-        JasperCompileManager.compileReportToFile(source, dest);
-    }
+  public void compile(File jrxml) throws JRException {
+    String source = jrxml.getAbsolutePath();
+    String dest = source.replace(".jrxml", ".jasper");
+    getLog().info(String.format("Compiling report %s", source));
+    JasperCompileManager.compileReportToFile(source, dest);
+  }
 }
